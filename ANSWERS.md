@@ -30,7 +30,7 @@ How is that being tested?
     age, filterDoc will have a key-value pair of "age" and the age
     we're looking for. getUsers creates an iterable collection of
     documents (just like getUser) and asks Mongo to return the records
-    that satisfy the queries in filterDoc. getUserse uses
+    that satisfy the queries in filterDoc. getUsers uses
     serializeIterable to turn those records into a string and returns it.
 
 4. The Document objects in userController are BSON objects. We're getting
@@ -43,4 +43,11 @@ How is that being tested?
     drops that collection, and fills it up with some made-up data for
     testing purposes.
     
-6. 
+6. getUsersWhoAre37 tests filtering by age. It accesses the users through getUsers in userController.
+    Then it parses the json array from userController as a bson array, and uses stream to organize that data
+    and check it.
+    
+7. Server describes the path for adding new users: api/users/new. This calls addNewUser in userRequestHandler,
+    which translates the body of the request into a new Document. Then it uses the fields of that document to
+    call addNewUser in userController. userController uses that information to create a new document, which it
+    tries to insert into userCollection.
