@@ -1,0 +1,56 @@
+<div>
+  <button id="addNewTodo" mat-raised-button (click)="openDialog()">Add New Todo</button>
+</div>
+
+
+<div layout-gt-sm="row">
+  <div flex-gt-sm="80" flex-offset-gt-sm="10">
+    <mat-card>
+      <mat-card-title id="todo-list-title">Todos</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput id="todoId" #input type="text" placeholder="Filter by ID"
+                 (input)="todoId = $event.target.value">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput id="todoStatus" #input type="radio" ng-model="todo.status"
+                 (input)="todoStatus = $event.target.value">Complete
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput id="userCompany" #input type="search" placeholder="Search for company"
+                 [(ngModel)]="userCompany"/>
+          <button mat-button id="companyClearSearch" type="button" *ngIf="userCompany" matSuffix mat-icon-button
+                  aria-label="clear" (click)="userCompany='';loadService()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit
+        </button>
+
+        <mat-accordion *ngIf="todos; else todosError">
+          <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
+                               *ngFor="let todo of this.filterTodos(todoId, todoStatus)">
+            <mat-expansion-panel-header>
+              <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.owner}}</mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <mat-panel-description>Belongs to {{todo.owner}}</mat-panel-description>
+            <mat-panel-description>Status: {{todo.status}}</mat-panel-description>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
+        <ng-template #todosError>
+          <mat-error>
+            There was a problem loading the todos. Possibly the server is down or perhaps there are network
+            issues.
+          </mat-error>
+          <mat-error>
+            Please wait a bit and try again or start the server.
+          </mat-error>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
