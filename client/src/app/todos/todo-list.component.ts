@@ -3,7 +3,7 @@ import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
 import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
-import {AddTodoComponent} from './add-todo.component';
+//import {AddTodoComponent} from './add-todo.component';
 
 @Component({
   selector: 'todo-list-component',
@@ -17,7 +17,7 @@ export class TodoListComponent implements OnInit {
   public filteredTodos: Todo[];
 
   // These are the target values used in searching.
-  // We should rename them to make that clearer.
+  // We should reid them to make that clearer.
   public todoId: string;
   public todoOwner: string;
   public todoStatus: boolean;
@@ -36,47 +36,47 @@ export class TodoListComponent implements OnInit {
     return todo._id['$oid'] === this.highlightedID;
   }
 
-  openDialog(): void {
-    const newTodo: Todo = {_id: '', name: '', age: -1, company: '', email: ''};
-    const dialogRef = this.dialog.open(AddTodoComponent, {
-      width: '500px',
-      data: {todo: newTodo}
-    });
+  // openDialog(): void {
+  //   const newTodo: Todo = {_id: '', owner: '', status: false, body: '', category: ''};
+  //   const dialogRef = this.dialog.open(AddTodoComponent, {
+  //     width: '500px',
+  //     data: {todo: newTodo}
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(newTodo => {
+  //     if (newTodo != null) {
+  //       this.todoListService.addNewTodo(newTodo).subscribe(
+  //         result => {
+  //           this.highlightedID = result;
+  //           this.refreshTodos();
+  //         },
+  //         err => {
+  //           // This should probably be turned into some sort of meaningful response.
+  //           console.log('There was an error adding the todo.');
+  //           console.log('The newTodo or dialogResult was ' + newTodo);
+  //           console.log('The error was ' + JSON.stringify(err));
+  //         });
+  //     }
+  //   });
+  // }
 
-    dialogRef.afterClosed().subscribe(newTodo => {
-      if (newTodo != null) {
-        this.todoListService.addNewTodo(newTodo).subscribe(
-          result => {
-            this.highlightedID = result;
-            this.refreshTodos();
-          },
-          err => {
-            // This should probably be turned into some sort of meaningful response.
-            console.log('There was an error adding the todo.');
-            console.log('The newTodo or dialogResult was ' + newTodo);
-            console.log('The error was ' + JSON.stringify(err));
-          });
-      }
-    });
-  }
-
-  public filterTodos(searchName: string, searchAge: number): Todo[] {
+  public filterTodos(searchId: string, searchStatus: boolean): Todo[] {
 
     this.filteredTodos = this.todos;
 
-    // Filter by name
-    if (searchName != null) {
-      searchName = searchName.toLocaleLowerCase();
+    // Filter by Id
+    if (searchId != null) {
+      searchId = searchId.toLocaleLowerCase();
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchName || todo.name.toLowerCase().indexOf(searchName) !== -1;
+        return !searchId || todo._id.toLowerCase().indexOf(searchId) !== -1;
       });
     }
 
-    // Filter by age
-    if (searchAge != null) {
+    // Filter by status
+    if (searchStatus != null) {
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchAge || todo.age == searchAge;
+        return !searchStatus || todo.status == searchStatus;
       });
     }
 
@@ -98,7 +98,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoName, this.todoAge);
+        this.filterTodos(this.todoId, this.todoStatus);
       },
       err => {
         console.log(err);
@@ -107,7 +107,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadService(): void {
-    this.todoListService.getTodos(this.todoCompany).subscribe(
+    this.todoListService.getTodos(this.todoBody).subscribe(
       todos => {
         this.todos = todos;
         this.filteredTodos = this.todos;
