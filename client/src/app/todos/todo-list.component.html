@@ -13,13 +13,17 @@
           <input matInput id="todoOwner" #input type="text" placeholder="Filter by Owner"
                  (input)="todoOwner = $event.target.value">
         </mat-form-field>
+        <mat-form-field>
+          <input matInput id="todoCategory" #input type="text" placeholder="Filter by Category"
+                 (input)="todoCategory = $event.target.value">
+        </mat-form-field>
         <!--<mat-form-field>-->
           <!--<input matInput id="todoStatus" #input type="radio" ng-model="todo.status"-->
                  <!--(input)="todoStatus = $event.target.value">Complete-->
         <!--</mat-form-field>-->
         <mat-form-field>
-          <input matInput id="userBody" #input type="search" placeholder="Search for body"
-                 [(ngModel)]="userBody"/>
+          <input matInput id="todoBody" #input type="search" placeholder="Search for Body"
+                 [(ngModel)]="todoBody"/>
           <button mat-button id="bodyClearSearch" type="button" *ngIf="todoBody" matSuffix mat-icon-button
                   aria-label="clear" (click)="todoBody='';loadService()">
             <mat-icon>close</mat-icon>
@@ -30,7 +34,7 @@
 
         <mat-accordion *ngIf="todos; else todosError">
           <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
-                               *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)">
+                               *ngFor="let todo of this.filterTodos(todoOwner, todoStatus, todoCategory)">
             <mat-expansion-panel-header>
               <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>
 
