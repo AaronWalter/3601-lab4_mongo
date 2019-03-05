@@ -1,3 +1,8 @@
+#addTodo {
+  flex-basis: 100%;
+  max-width: 100%;
+}
+
 #title input {
   width: 16%;
   min-width: 100px;
@@ -7,3 +12,25 @@
   padding-right: 14px;
 }
 
+.mat-card {
+  background-color: #795548;
+  border-style: inset;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+}
+.mat-card-title{
+  font-size: 40px;
+  font-family: Georgia;
+}
+.mat-expansion-panel-header {
+  border-style: outset;
+}
+.mat-expansion-panel-header-description {
+  border-bottom-style: solid;
+  border-width: 2px;
+}
+.mat-expansion-panel-header {
+  background-color: skyblue;
+}
