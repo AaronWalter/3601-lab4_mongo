@@ -34,3 +34,22 @@
 .mat-expansion-panel-header {
   background-color: skyblue;
 }
+.with-icon {
+  position: absolute;
+}
+mat-icon.material-icons, mat-icon.material-icons.mat-icon{
+  margin: 5px;
+}
+.mat-list .mat-list-item .mat-line, .mat-nav-list .mat-list-item .mat-line, .mat-selection-list .mat-list-item .mat-line{
+  text-align: left;
+}
+.mat-list .mat-list-item, .mat-nav-list .mat-list-item, .mat-selection-list .mat-list-item{
+  border-bottom: solid;
+}
+.mat-list .mat-list-item .mat-list-text, .mat-nav-list .mat-list-item .mat-list-text, .mat-selection-list .mat-list-item .mat-list-text{
+  border-left: solid;
+}
+.mat-list, .mat-nav-list, .mat-selection-list{
+  border-top: solid;
+  border-color: black;
+}
