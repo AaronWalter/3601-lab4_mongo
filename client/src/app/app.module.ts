@@ -19,6 +19,10 @@ import {APP_BASE_HREF} from '@angular/common';
 import {CustomModule} from './custom.module';
 import {AddUserComponent} from './users/add-user.component';
 import {AddTodoComponent} from "./todos/add-todo.component";
+import {MdFormFieldModule} from "@angular/material";
+import {MdInputModule} from "@angular/material";
+import { CompatibilityModule } from '@angular/material';
+import {NoConflictStyleCompatibilityMode} from '@angular/material';
 
 
 @NgModule({
@@ -27,6 +31,10 @@ import {AddTodoComponent} from "./todos/add-todo.component";
     HttpClientModule,
     Routing,
     CustomModule,
+    MdFormFieldModule,
+    MdInputModule,
+    CompatibilityModule,
+    NoConflictStyleCompatibilityMode
   ],
   declarations: [
     AppComponent,

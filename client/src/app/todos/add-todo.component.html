@@ -15,16 +15,16 @@ is potentially helpful and contributed to the shaping of this example -->
           </mat-error>
         </mat-error>
       </mat-form-field>
-      <!--<mat-form-field flex>-->
-        <!--<input matInput #input id="statusField" type="text" placeholder="Status" [(ngModel)]="data.todo.status"-->
-               <!--formControlName="status">-->
-        <!--<mat-error *ngFor="let validation of add_todo_validation_messages.status">-->
-          <!--<mat-error class="error-message" id="status-error"-->
-                     <!--*ngIf="addTodoForm.get('status').hasError(validation.type) && (addTodoForm.get('status').dirty || addTodoForm.get('status').touched)">-->
-            <!--{{validation.message}}-->
-          <!--</mat-error>-->
-        <!--</mat-error>-->
-      <!--</mat-form-field>-->
+      <mat-form-field flex>
+        <input matInput #input id="statusField" type="text" placeholder="Status, use 'False' and 'True'" [(ngModel)]="data.todo.status"
+               formControlName="status">
+        <mat-error *ngFor="let validation of add_todo_validation_messages.status">
+          <mat-error class="error-message" id="status-error"
+                     *ngIf="addTodoForm.get('status').hasError(validation.type) && (addTodoForm.get('status').dirty || addTodoForm.get('status').touched)">
+            {{validation.message}}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
       <mat-form-field flex>
         <input matInput #input id="bodyField" placeholder="Body" [(ngModel)]="data.todo.body"
                formControlName="body">
