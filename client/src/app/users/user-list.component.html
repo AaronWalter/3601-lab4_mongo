@@ -28,17 +28,28 @@
         <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit
         </button>
 
-        <mat-accordion *ngIf="users; else usersError">
-          <mat-expansion-panel #elem class="users" [id]="user.email" [expanded]="this.isHighlighted(user)"
-                               *ngFor="let user of this.filterUsers(userName, userAge)">
-            <mat-expansion-panel-header>
-              <mat-panel-title matTooltip="email: {{user.email}}">{{user.name}}</mat-panel-title>
+        <mat-list *ngIf="users; else usersError">
+          <mat-list-item #elem class="users" [id]="user._id"
+                         *ngFor="let user of this.filterUsers(userName, userAge)">
+            <mat-icon mat-list-icon>perm_identity</mat-icon>
+            <h5 mat-line>{{user.name}}</h5>
+            <h3 mat-line>Works for {{user.company}}</h3>
+            <h3 mat-line>Age: {{user.age}}</h3>
+            <h3 mat-line>Email: {{user.email}}</h3>
+          </mat-list-item>
+        </mat-list>
 
-            </mat-expansion-panel-header>
-            <mat-panel-description>Works for {{user.company}}</mat-panel-description>
-            <mat-panel-description>Age: {{user.age}} years old</mat-panel-description>
-          </mat-expansion-panel>
-        </mat-accordion>
+        <!--<mat-accordion *ngIf="users; else usersError">-->
+          <!--<mat-expansion-panel #elem class="users" [id]="user.email" [expanded]="this.isHighlighted(user)"-->
+                               <!--*ngFor="let user of this.filterUsers(userName, userAge)">-->
+            <!--<mat-expansion-panel-header>-->
+              <!--<mat-panel-title matTooltip="email: {{user.email}}">{{user.name}}</mat-panel-title>-->
+
+            <!--</mat-expansion-panel-header>-->
+            <!--<mat-panel-description>Works for {{user.company}}</mat-panel-description>-->
+            <!--<mat-panel-description>Age: {{user.age}} years old</mat-panel-description>-->
+          <!--</mat-expansion-panel>-->
+        <!--</mat-accordion>-->
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
         <ng-template #usersError>
           <mat-error>

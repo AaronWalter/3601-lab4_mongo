@@ -22,10 +22,10 @@
           <input matInput id="todoBody" #input type="text" placeholder="Filter by Body"
                  (input)="todoBody = $event.target.value">
         </mat-form-field>
-        <!--<mat-form-field>-->
-          <!--<input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"-->
-                 <!--(input)="todoStatus = $event.target.value">-->
-        <!--</mat-form-field>-->
+        <mat-form-field>
+          <input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"
+                 (input)="todoStatus = $event.target.value">
+        </mat-form-field>
         <mat-form-field>
           <input matInput id="todoCategory" #input type="search" placeholder="Search for Category"
                  [(ngModel)]="todoCategory"/>
@@ -37,18 +37,30 @@
         <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit
         </button>
 
-        <mat-accordion *ngIf="todos; else todosError">
-          <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
-                               *ngFor="let todo of this.filterTodos(todoBody, todoOwner)">
-            <mat-expansion-panel-header>
-              <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>
+        <mat-list *ngIf="todos; else todosError">
+          <mat-list-item #elem class="todos" [id]="todo._id"
+                         *ngFor="let todo of this.filterTodos(todoBody, todoOwner)">
+          <mat-icon mat-list-icon>assignment</mat-icon>
+            <h5 mat-line>Task: {{todo.body}}</h5>
+            <h3 mat-line>Belongs to: {{todo.owner}}</h3>
+            <h3 mat-line>Completed: {{todo.status}}</h3>
+            <h3 mat-line>Category: {{todo.category}}</h3>
+          </mat-list-item>
+        </mat-list>
 
-            </mat-expansion-panel-header>
-            <mat-panel-description>Belongs to {{todo.owner}}</mat-panel-description>
-            <mat-panel-description>Status: {{todo.status}}</mat-panel-description>
-            <mat-panel-description>Category: {{todo.category}}</mat-panel-description>
-          </mat-expansion-panel>
-        </mat-accordion>
+        <!--<mat-accordion *ngIf="todos; else todosError">-->
+          <!--<mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"-->
+                               <!--*ngFor="let todo of this.filterTodos(todoBody, todoOwner)">-->
+            <!--<mat-expansion-panel-header>-->
+              <!--<mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>-->
+
+            <!--</mat-expansion-panel-header>-->
+            <!--<mat-panel-description>Belongs to {{todo.owner}}</mat-panel-description>-->
+            <!--<mat-panel-description>Status: {{todo.status}}</mat-panel-description>-->
+            <!--<mat-panel-description>Category: {{todo.category}}</mat-panel-description>-->
+          <!--</mat-expansion-panel>-->
+        <!--</mat-accordion>-->
+
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
         <ng-template #todosError>
           <mat-error>

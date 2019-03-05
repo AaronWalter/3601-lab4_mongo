@@ -16,4 +16,22 @@ export class OwnerValidator {
 
     }
   }
+
+  static validCategory(fc: FormControl) {
+    if (fc.value.toLowerCase() === "Homework" || fc.value.toLowerCase() === "Homework") {
+      return ({
+        existingCategory: true,
+      });
+    } else {
+      return null;
+    }
+  }
+
+  static validStatus(fc: FormControl) {
+    if (fc.value.toLowerCase() === "true" || fc.value.toLowerCase() === "false") {
+      return ({
+        existingStatus: true,
+      });
+    }
+  }
 }
