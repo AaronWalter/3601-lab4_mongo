@@ -30,7 +30,7 @@
 
         <mat-accordion *ngIf="todos; else todosError">
           <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
-                               *ngFor="let todo of this.filterTodos(todoId, todoStatus)">
+                               *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)">
             <mat-expansion-panel-header>
               <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>
 

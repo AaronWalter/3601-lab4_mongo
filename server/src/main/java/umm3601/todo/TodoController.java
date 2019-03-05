@@ -67,9 +67,29 @@ public class TodoController {
 
     Document filterDoc = new Document();
 
+    if (queryParams.containsKey("owner")) {
+      String targetContent = (queryParams.get("owner")[0]);
+      Document contentRegQuery = new Document();
+      contentRegQuery.append("$regex", targetContent);
+      contentRegQuery.append("$options", "i");
+      filterDoc = filterDoc.append("owner", contentRegQuery);
+    }
+
+    if (queryParams.containsKey("category")) {
+      String targetContent = (queryParams.get("category")[0]);
+      Document contentRegQuery = new Document();
+      contentRegQuery.append("$regex", targetContent);
+      contentRegQuery.append("$options", "i");
+      filterDoc = filterDoc.append("category", contentRegQuery);
+    }
+
     if (queryParams.containsKey("status")) {
-      int targetStatus = Integer.parseInt(queryParams.get("status")[0]);
-      filterDoc = filterDoc.append("status", targetStatus);
+      String targetContent = (queryParams.get("status")[0]);
+      boolean targetBool;
+      targetBool = changeStatus(targetContent);
+      Document contentRegQuery = new Document();
+      contentRegQuery.append("$eq", targetBool);
+      filterDoc = filterDoc.append("status", contentRegQuery);
     }
 
     if (queryParams.containsKey("body")) {
@@ -97,6 +117,9 @@ public class TodoController {
       .collect(Collectors.joining(", ", "[", "]"));
   }
 
+  private boolean changeStatus(String status) {
+    return (status.toLowerCase().equals("complete") || status.toLowerCase().equals("true"));
+  }
 
   /**
    * Helper method which appends received todo information to the to-be added document
@@ -107,11 +130,11 @@ public class TodoController {
    * @param category the category of the new todo
    * @return boolean after successfully or unsuccessfully adding a todo
    */
-  public String addNewTodo(String owner, boolean status, String body, String category) {
+  public String addNewTodo(String owner, String status, String body, String category) {
 
     Document newTodo = new Document();
     newTodo.append("owner", owner);
-    newTodo.append("status", status);
+    newTodo.append("status", changeStatus(status));
     newTodo.append("body", body);
     newTodo.append("category", category);
 
@@ -125,4 +148,5 @@ public class TodoController {
       return null;
     }
   }
+
 }
