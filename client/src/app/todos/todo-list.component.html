@@ -9,10 +9,10 @@
       <mat-card-title id="todo-list-title">Todos</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
-        <mat-radio-group>
-          <mat-radio-button value="0">Complete</mat-radio-button>
-          <mat-radio-button value="1">Incomplete</mat-radio-button>
-        </mat-radio-group>
+        <label>
+          <input type="radio" name="Complete" [(ngModel)]="todoStatus" [value]="true">Complete
+          <input type="radio" name="Incomplete" [(ngModel)]="todoStatus" [value]="false">Incomplete
+        </label>
         <p></p>
         <mat-form-field>
           <input matInput id="todoOwner" #input type="text" placeholder="Filter by Owner"
@@ -22,10 +22,10 @@
           <input matInput id="todoBody" #input type="text" placeholder="Filter by Body"
                  (input)="todoBody = $event.target.value">
         </mat-form-field>
-        <mat-form-field>
-          <input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"
-                 (input)="todoStatus = $event.target.value">
-        </mat-form-field>
+        <!--<mat-form-field>-->
+          <!--<input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"-->
+                 <!--(input)="todoStatus = $event.target.value">-->
+        <!--</mat-form-field>-->
         <mat-form-field>
           <input matInput id="todoCategory" #input type="search" placeholder="Search for Category"
                  [(ngModel)]="todoCategory"/>
