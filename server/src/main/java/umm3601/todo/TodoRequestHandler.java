@@ -81,8 +81,9 @@ public class TodoRequestHandler {
     String status = newTodo.getString("status");
     String body = newTodo.getString("body");
     String category = newTodo.getString("category");
+    Boolean boolStatus = Boolean.parseBoolean(status);
 
     System.err.println("Adding new todo [owner=" + owner + ", status=" + status + " body=" + body + " category=" + category + ']');
-    return todoController.addNewTodo(owner, status, body, category);
+    return todoController.addNewTodo(owner, boolStatus, body, category);
   }
 }

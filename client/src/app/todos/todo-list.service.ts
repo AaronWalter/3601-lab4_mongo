@@ -15,8 +15,8 @@ export class TodoListService {
   constructor(private http: HttpClient) {
   }
 
-  getTodos(todoStatus?: string, todoCategory?: string): Observable<Todo[]> {
-    this.filterByStatus(todoStatus);
+  getTodos(todoCategory?: string): Observable<Todo[]> {
+    // this.filterByStatus(todoStatus);
     this.filterByCategory(todoCategory);
     return this.http.get<Todo[]>(this.todoUrl);
   }
@@ -35,31 +35,31 @@ export class TodoListService {
   }
   */
 
-  filterByStatus(todoStatus?: string): void {
-    if (!(todoStatus == null || todoStatus === '')) {
-      if (this.parameterPresent('status=')) {
-        // there was a previous search by owner that we need to clear
-        this.removeParameter('status=');
-      }
-      if (this.todoUrl.indexOf('?') !== -1) {
-        // there was already some information passed in this url
-        this.todoUrl += 'status=' + todoStatus + '&';
-      } else {
-        // this was the first bit of information to pass in the url
-        this.todoUrl += '?status=' + todoStatus + '&';
-      }
-    } else {
-      // there was nothing in the box to put onto the URL... reset
-      if (this.parameterPresent('status=')) {
-        let start = this.todoUrl.indexOf('status=');
-        const end = this.todoUrl.indexOf('&', start);
-        if (this.todoUrl.substring(start - 1, start) === '?') {
-          start = start - 1;
-        }
-        this.todoUrl = this.todoUrl.substring(0, start) + this.todoUrl.substring(end + 1);
-      }
-    }
-  }
+  // filterByStatus(todoStatus?: string): void {
+  //   if (!(todoStatus == null || todoStatus === '')) {
+  //     if (this.parameterPresent('status=')) {
+  //       // there was a previous search by owner that we need to clear
+  //       this.removeParameter('status=');
+  //     }
+  //     if (this.todoUrl.indexOf('?') !== -1) {
+  //       // there was already some information passed in this url
+  //       this.todoUrl += 'status=' + todoStatus + '&';
+  //     } else {
+  //       // this was the first bit of information to pass in the url
+  //       this.todoUrl += '?status=' + todoStatus + '&';
+  //     }
+  //   } else {
+  //     // there was nothing in the box to put onto the URL... reset
+  //     if (this.parameterPresent('status=')) {
+  //       let start = this.todoUrl.indexOf('status=');
+  //       const end = this.todoUrl.indexOf('&', start);
+  //       if (this.todoUrl.substring(start - 1, start) === '?') {
+  //         start = start - 1;
+  //       }
+  //       this.todoUrl = this.todoUrl.substring(0, start) + this.todoUrl.substring(end + 1);
+  //     }
+  //   }
+  // }
 
   filterByCategory(todoCategory?: string): void {
     if (!(todoCategory == null || todoCategory === '')) {

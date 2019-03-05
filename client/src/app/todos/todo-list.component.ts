@@ -37,7 +37,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: false, category: '', body: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: null, category: '', body: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -60,7 +60,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public filterTodos(searchBody: string, searchOwner: string): Todo[] {
+  public filterTodos(searchBody: string, searchOwner: string, searchStatus: string): Todo[] {
 
     this.filteredTodos = this.todos;
 
@@ -83,6 +83,15 @@ export class TodoListComponent implements OnInit {
     }
 
     return this.filteredTodos;
+
+    // Filter by status
+    if (searchStatus != null) {
+      searchStatus = searchStatus.toLocaleLowerCase();
+
+      this.filteredTodos = this.filteredTodos.filter(todo => {
+        return !searchStatus || String(todo.status).toLowerCase().indexOf(searchStatus) !== -1;
+      });
+    }
   }
 
   /**

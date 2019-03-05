@@ -18,7 +18,6 @@ import static com.mongodb.client.model.Filters.eq;
  * Controller that manages requests for info about todos.
  */
 public class TodoController {
-boolean neededBoolean;
   private final MongoCollection<Document> todoCollection;
 
   /**
@@ -84,14 +83,8 @@ boolean neededBoolean;
     }
 
     if (queryParams.containsKey("status")) {
-      String targetContent = (queryParams.get("status")[0]);
-      if(targetContent.equals("complete")){
-        neededBoolean = true;
-      }
-      if(targetContent.equals("incomplete")){
-        neededBoolean = false;
-      }
-      filterDoc = filterDoc.append("status", neededBoolean);
+      boolean targetStatus = Boolean.parseBoolean(queryParams.get("status")[0]);
+      filterDoc = filterDoc.append("status", targetStatus);
     }
 
     if (queryParams.containsKey("body")) {
@@ -121,10 +114,6 @@ boolean neededBoolean;
       .collect(Collectors.joining(", ", "[", "]"));
   }
 
-  private boolean changeStatus(String status) {
-    return (status.toLowerCase().equals("complete") || status.toLowerCase().equals("true"));
-  }
-
   /**
    * Helper method which appends received todo information to the to-be added document
    *
@@ -134,11 +123,11 @@ boolean neededBoolean;
    * @param category the category of the new todo
    * @return boolean after successfully or unsuccessfully adding a todo
    */
-  public String addNewTodo(String owner, String status, String body, String category) {
+  public String addNewTodo(String owner, boolean status, String body, String category) {
 
     Document newTodo = new Document();
     newTodo.append("owner", owner);
-    newTodo.append("status", changeStatus(status));
+    newTodo.append("status", status);
     newTodo.append("body", body);
     newTodo.append("category", category);
 
