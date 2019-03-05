@@ -1,3 +1,7 @@
+Status and category were sorted by the server, while body and owner were sorted by the client.
+We decided to use server-side filtering for status and category mainly because we felt that status
+would be easier to sort server-side. Body and owner were then left to the client-side filtering.
+
 ## Questions
 
 1. :question: What do we do in the `Server` and `UserController` constructors
