@@ -123,7 +123,7 @@ public class TodoControllerSpec {
   @Test
   public void getTodosThatAreComplete() {
     Map<String, String[]> argMap = new HashMap<>();
-    argMap.put("status", new String[]{"complete"});
+    argMap.put("status", new String[]{"true"});
     String jsonResult = todoController.getTodos(argMap);
     BsonArray docs = parseJsonArray(jsonResult);
 
@@ -153,7 +153,7 @@ public class TodoControllerSpec {
 
     assertNotNull("Add new todo should return true when todo is added,", newId);
     Map<String, String[]> argMap = new HashMap<>();
-    argMap.put("status", new String[]{"complete"});
+    argMap.put("status", new String[]{"true"});
     String jsonResult = todoController.getTodos(argMap);
     BsonArray docs = parseJsonArray(jsonResult);
 
