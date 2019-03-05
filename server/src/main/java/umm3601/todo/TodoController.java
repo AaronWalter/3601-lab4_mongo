@@ -100,6 +100,8 @@ public class TodoController {
       filterDoc = filterDoc.append("body", contentRegQuery);
     }
 
+    System.out.println(filterDoc);
+
     //FindIterable comes from mongo, Document comes from Gson
     FindIterable<Document> matchingTodos = todoCollection.find(filterDoc);
 

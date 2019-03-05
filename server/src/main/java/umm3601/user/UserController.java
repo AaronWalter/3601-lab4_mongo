@@ -80,6 +80,8 @@ public class UserController {
       filterDoc = filterDoc.append("company", contentRegQuery);
     }
 
+    System.out.println(filterDoc);
+
     //FindIterable comes from mongo, Document comes from Gson
     FindIterable<Document> matchingUsers = userCollection.find(filterDoc);
 

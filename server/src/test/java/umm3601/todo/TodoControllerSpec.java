@@ -35,30 +35,30 @@ public class TodoControllerSpec {
     todoDocuments.drop();
     List<Document> testTodos = new ArrayList<>();
     testTodos.add(Document.parse("{\n" +
-      "                    name: \"Chris\",\n" +
-      "                    age: 25,\n" +
-      "                    company: \"UMM\",\n" +
-      "                    email: \"chris@this.that\"\n" +
+      "                    owner: \"Chris\",\n" +
+      "                    status: true,\n" +
+      "                    body: \"UMM\",\n" +
+      "                    category: \"pokemon\"\n" +
       "                }"));
     testTodos.add(Document.parse("{\n" +
-      "                    name: \"Pat\",\n" +
-      "                    age: 37,\n" +
-      "                    company: \"IBM\",\n" +
-      "                    email: \"pat@something.com\"\n" +
+      "                    owner: \"Pat\",\n" +
+      "                    status: false,\n" +
+      "                    body: \"IBM\",\n" +
+      "                    category: \"groceries\"\n" +
       "                }"));
     testTodos.add(Document.parse("{\n" +
-      "                    name: \"Jamie\",\n" +
-      "                    age: 37,\n" +
-      "                    company: \"Frogs, Inc.\",\n" +
-      "                    email: \"jamie@frogs.com\"\n" +
+      "                    owner: \"Jamie\",\n" +
+      "                    status: true,\n" +
+      "                    body: \"Frogs, Inc.\",\n" +
+      "                    category: \"salad\"\n" +
       "                }"));
 
     samsId = new ObjectId();
     BasicDBObject sam = new BasicDBObject("_id", samsId);
-    sam = sam.append("name", "Sam")
-      .append("age", 45)
-      .append("company", "Frogs, Inc.")
-      .append("email", "sam@frogs.com");
+    sam = sam.append("owner", "Sam")
+      .append("status", false)
+      .append("body", "Frogs, Inc.")
+      .append("category", "salad");
 
 
     todoDocuments.insertMany(testTodos);
@@ -84,9 +84,24 @@ public class TodoControllerSpec {
     return arrayReader.decode(reader, DecoderContext.builder().build());
   }
 
-  private static String getName(BsonValue val) {
+  private static String getStatus(BsonValue val) {
     BsonDocument doc = val.asDocument();
-    return ((BsonString) doc.get("name")).getValue();
+    return ((BsonString) doc.get("status")).getValue();
+  }
+
+  private static String getBody(BsonValue val) {
+    BsonDocument doc = val.asDocument();
+    return ((BsonString) doc.get("body")).getValue();
+  }
+
+  private static String getCategory(BsonValue val) {
+    BsonDocument doc = val.asDocument();
+    return ((BsonString) doc.get("category")).getValue();
+  }
+
+  private static String getOwner(BsonValue val) {
+    BsonDocument doc = val.asDocument();
+    return ((BsonString) doc.get("owner")).getValue();
   }
 
   @Test
@@ -98,7 +113,7 @@ public class TodoControllerSpec {
     assertEquals("Should be 4 todos", 4, docs.size());
     List<String> names = docs
       .stream()
-      .map(TodoControllerSpec::getName)
+      .map(TodoControllerSpec::getOwner)
       .sorted()
       .collect(Collectors.toList());
     List<String> expectedNames = Arrays.asList("Chris", "Jamie", "Pat", "Sam");
@@ -106,19 +121,19 @@ public class TodoControllerSpec {
   }
 
   @Test
-  public void getTodosWhoAre37() {
+  public void getTodosThatAreComplete() {
     Map<String, String[]> argMap = new HashMap<>();
-    argMap.put("age", new String[]{"37"});
+    argMap.put("status", new String[]{"complete"});
     String jsonResult = todoController.getTodos(argMap);
     BsonArray docs = parseJsonArray(jsonResult);
 
     assertEquals("Should be 2 todos", 2, docs.size());
     List<String> names = docs
       .stream()
-      .map(TodoControllerSpec::getName)
+      .map(TodoControllerSpec::getOwner)
       .sorted()
       .collect(Collectors.toList());
-    List<String> expectedNames = Arrays.asList("Jamie", "Pat");
+    List<String> expectedNames = Arrays.asList("Chris", "Jamie");
     assertEquals("Names should match", expectedNames, names);
   }
 
@@ -126,7 +141,7 @@ public class TodoControllerSpec {
   public void getSamById() {
     String jsonResult = todoController.getTodo(samsId.toHexString());
     Document sam = Document.parse(jsonResult);
-    assertEquals("Name should match", "Sam", sam.get("name"));
+    assertEquals("Name should match", "Sam", sam.get("owner"));
     String noJsonResult = todoController.getTodo(new ObjectId().toString());
     assertNull("No name should match", noJsonResult);
 
@@ -134,34 +149,37 @@ public class TodoControllerSpec {
 
   @Test
   public void addTodoTest() {
-    String newId = todoController.addNewTodo("Brian", true, "umm", "brian@yahoo.com");
+    String newId = todoController.addNewTodo("Brian", "complete", "umm", "brian@yahoo.com");
 
     assertNotNull("Add new todo should return true when todo is added,", newId);
     Map<String, String[]> argMap = new HashMap<>();
-    argMap.put("age", new String[]{"22"});
+    argMap.put("status", new String[]{"complete"});
     String jsonResult = todoController.getTodos(argMap);
     BsonArray docs = parseJsonArray(jsonResult);
 
     List<String> name = docs
       .stream()
-      .map(TodoControllerSpec::getName)
+      .map(TodoControllerSpec::getOwner)
       .sorted()
       .collect(Collectors.toList());
     assertEquals("Should return name of new todo", "Brian", name.get(0));
   }
 
   @Test
-  public void getTodoByCompany() {
+  public void getTodoByCategory() {
     Map<String, String[]> argMap = new HashMap<>();
     //Mongo in TodoController is doing a regex search so can just take a Java Reg. Expression
     //This will search the company starting with an I or an F
-    argMap.put("company", new String[]{"[I,F]"});
+    argMap.put("category", new String[]{"[S]"});
+    System.out.println(argMap);
     String jsonResult = todoController.getTodos(argMap);
+    System.out.println(jsonResult);
     BsonArray docs = parseJsonArray(jsonResult);
+    System.out.println(docs);
     assertEquals("Should be 3 todos", 3, docs.size());
     List<String> name = docs
       .stream()
-      .map(TodoControllerSpec::getName)
+      .map(TodoControllerSpec::getOwner)
       .sorted()
       .collect(Collectors.toList());
     List<String> expectedName = Arrays.asList("Jamie", "Pat", "Sam");
@@ -169,5 +187,17 @@ public class TodoControllerSpec {
 
   }
 
+  @Test
+  public void getTodoByCategory2() {
+    Map<String, String[]> argMap = new HashMap<>();
+    String[] query = {"[P, G]"};
+    argMap.put("category", query);
+    System.out.println(argMap);
+    String jsonResult = todoController.getTodos(argMap);
+    System.out.println(jsonResult);
+    BsonArray docs = parseJsonArray(jsonResult);
+    System.out.println(docs);
+
+  }
 
 }

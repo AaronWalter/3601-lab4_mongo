@@ -155,9 +155,13 @@ public class UserControllerSpec {
     Map<String, String[]> argMap = new HashMap<>();
     //Mongo in UserController is doing a regex search so can just take a Java Reg. Expression
     //This will search the company starting with an I or an F
+    //This test actually searches the whole company for an I or an F
     argMap.put("company", new String[]{"[I,F]"});
+    System.out.println(argMap);
     String jsonResult = userController.getUsers(argMap);
+    System.out.println(jsonResult);
     BsonArray docs = parseJsonArray(jsonResult);
+    System.out.println(docs);
     assertEquals("Should be 3 users", 3, docs.size());
     List<String> name = docs
       .stream()
