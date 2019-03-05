@@ -10,18 +10,18 @@
       <mat-divider></mat-divider>
       <mat-card-content>
         <mat-form-field>
-          <input matInput id="todoId" #input type="text" placeholder="Filter by ID"
-                 (input)="todoId = $event.target.value">
+          <input matInput id="todoOwner" #input type="text" placeholder="Filter by Owner"
+                 (input)="todoOwner = $event.target.value">
         </mat-form-field>
+        <!--<mat-form-field>-->
+          <!--<input matInput id="todoStatus" #input type="radio" ng-model="todo.status"-->
+                 <!--(input)="todoStatus = $event.target.value">Complete-->
+        <!--</mat-form-field>-->
         <mat-form-field>
-          <input matInput id="todoStatus" #input type="text" ng-model="todo.status"
-                 (input)="todoStatus = $event.target.value">Complete
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput id="userCompany" #input type="search" placeholder="Search for company"
-                 [(ngModel)]="userCompany"/>
-          <button mat-button id="companyClearSearch" type="button" *ngIf="userCompany" matSuffix mat-icon-button
-                  aria-label="clear" (click)="userCompany='';loadService()">
+          <input matInput id="userBody" #input type="search" placeholder="Search for body"
+                 [(ngModel)]="userBody"/>
+          <button mat-button id="bodyClearSearch" type="button" *ngIf="todoBody" matSuffix mat-icon-button
+                  aria-label="clear" (click)="todoBody='';loadService()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -30,13 +30,14 @@
 
         <mat-accordion *ngIf="todos; else todosError">
           <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
-                               *ngFor="let todo of this.filterTodos(todoId, todoStatus)">
+                               *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)">
             <mat-expansion-panel-header>
-              <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.owner}}</mat-panel-title>
+              <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>
 
             </mat-expansion-panel-header>
             <mat-panel-description>Belongs to {{todo.owner}}</mat-panel-description>
             <mat-panel-description>Status: {{todo.status}}</mat-panel-description>
+            <mat-panel-description>Category: {{todo.category}}</mat-panel-description>
           </mat-expansion-panel>
         </mat-accordion>
         <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->

@@ -3,7 +3,7 @@ import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
 import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
-//import {AddTodoComponent} from './add-todo.component';
+import {AddTodoComponent} from "./add-todo.component";
 
 @Component({
   selector: 'todo-list-component',
@@ -17,7 +17,7 @@ export class TodoListComponent implements OnInit {
   public filteredTodos: Todo[];
 
   // These are the target values used in searching.
-  // We should reid them to make that clearer.
+  // We should rename them to make that clearer.
   public todoId: string;
   public todoOwner: string;
   public todoStatus: boolean;
@@ -36,47 +36,54 @@ export class TodoListComponent implements OnInit {
     return todo._id['$oid'] === this.highlightedID;
   }
 
-  // openDialog(): void {
-  //   const newTodo: Todo = {_id: '', owner: '', status: false, body: '', category: ''};
-  //   const dialogRef = this.dialog.open(AddTodoComponent, {
-  //     width: '500px',
-  //     data: {todo: newTodo}
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(newTodo => {
-  //     if (newTodo != null) {
-  //       this.todoListService.addNewTodo(newTodo).subscribe(
-  //         result => {
-  //           this.highlightedID = result;
-  //           this.refreshTodos();
-  //         },
-  //         err => {
-  //           // This should probably be turned into some sort of meaningful response.
-  //           console.log('There was an error adding the todo.');
-  //           console.log('The newTodo or dialogResult was ' + newTodo);
-  //           console.log('The error was ' + JSON.stringify(err));
-  //         });
-  //     }
-  //   });
-  // }
+  openDialog(): void {
+    const newTodo: Todo = {_id: '', owner: '', status: false, category: '', body: ''};
+    const dialogRef = this.dialog.open(AddTodoComponent, {
+      width: '500px',
+      data: {todo: newTodo}
+    });
 
-  public filterTodos(searchId: string, searchStatus: boolean): Todo[] {
+    dialogRef.afterClosed().subscribe(newTodo => {
+      if (newTodo != null) {
+        this.todoListService.addNewTodo(newTodo).subscribe(
+          result => {
+            this.highlightedID = result;
+            this.refreshTodos();
+          },
+          err => {
+            // This should probably be turned into some sort of meaningful response.
+            console.log('There was an error adding the todo.');
+            console.log('The newTodo or dialogResult was ' + newTodo);
+            console.log('The error was ' + JSON.stringify(err));
+          });
+      }
+    });
+  }
+
+  public filterTodos(searchOwner: string, searchStatus: boolean, searchBody: string): Todo[] {
 
     this.filteredTodos = this.todos;
 
-    // Filter by Id
-    if (searchId != null) {
-      searchId = searchId.toLocaleLowerCase();
+    // Filter by owner
+    if (searchOwner != null) {
+      searchOwner = searchOwner.toLocaleLowerCase();
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchId || todo._id.toLowerCase().indexOf(searchId) !== -1;
+        return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
       });
     }
 
     // Filter by status
     if (searchStatus != null) {
+
       this.filteredTodos = this.filteredTodos.filter(todo => {
         return !searchStatus || todo.status == searchStatus;
+      });
+    }
+
+    if(searchBody != null) {
+      this.filteredTodos = this.filteredTodos.filter(todo => {
+        return !searchBody || todo.body == searchBody;
       });
     }
 
@@ -98,7 +105,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoId, this.todoStatus);
+        this.filterTodos(this.todoOwner, this.todoStatus, this.todoBody);
       },
       err => {
         console.log(err);
