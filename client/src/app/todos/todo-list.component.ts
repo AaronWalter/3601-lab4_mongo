@@ -3,7 +3,7 @@ import {TodoListService} from './todo-list.service';
 import {Todo} from './todo';
 import {Observable} from 'rxjs/Observable';
 import {MatDialog} from '@angular/material';
-import {AddTodoComponent} from './add-todo.component';
+import {AddTodoComponent} from "./add-todo.component";
 
 @Component({
   selector: 'todo-list-component',
@@ -37,7 +37,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', owner: '', status: true, category: '', body: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: false, category: '', body: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -60,11 +60,11 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public filterTodos(searchOwner: string, searchStatus: boolean): Todo[] {
+  public filterTodos(searchOwner: string, searchStatus: boolean, searchBody: string): Todo[] {
 
     this.filteredTodos = this.todos;
 
-    // Filter by name
+    // Filter by owner
     if (searchOwner != null) {
       searchOwner = searchOwner.toLocaleLowerCase();
 
@@ -73,11 +73,17 @@ export class TodoListComponent implements OnInit {
       });
     }
 
-    // Filter by age
+    // Filter by status
     if (searchStatus != null) {
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
         return !searchStatus || todo.status == searchStatus;
+      });
+    }
+
+    if(searchBody != null) {
+      this.filteredTodos = this.filteredTodos.filter(todo => {
+        return !searchBody || todo.body == searchBody;
       });
     }
 
@@ -99,7 +105,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoOwner, this.todoStatus);
+        this.filterTodos(this.todoOwner, this.todoStatus, this.todoBody);
       },
       err => {
         console.log(err);

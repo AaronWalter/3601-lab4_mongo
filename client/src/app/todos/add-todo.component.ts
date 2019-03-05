@@ -27,12 +27,12 @@ export class AddTodoComponent implements OnInit {
       {type: 'existingOwner', message: 'Owner has already been taken'}
     ],
 
-    'age': [
-      {type: 'pattern', message: 'Age must be a number'},
-      {type: 'min', message: 'Age must be at least 15'},
-      {type: 'max', message: 'Age may not be greater than 200'},
-      {type: 'required', message: 'Age is required'}
-    ],
+    // 'status': [
+    //   {type: 'pattern', message: 'Status must be a number'},
+    //   {type: 'min', message: 'Age must be at least 15'},
+    //   {type: 'max', message: 'Age may not be greater than 200'},
+    //   {type: 'required', message: 'Age is required'}
+    // ],
 
     'category': [
       {type: 'required', message: 'Category is required'},
@@ -60,12 +60,12 @@ export class AddTodoComponent implements OnInit {
       ])),
 
       // Since this is for a company, we need workers to be old enough to work, and probably not older than 200.
-      age: new FormControl('age', Validators.compose([
-        Validators.pattern('^[0-9]+[0-9]?'),
-        Validators.min(15),
-        Validators.max(200),
-        Validators.required
-      ])),
+      // age: new FormControl('age', Validators.compose([
+      //   Validators.pattern('^[0-9]+[0-9]?'),
+      //   Validators.min(15),
+      //   Validators.max(200),
+      //   Validators.required
+      // ])),
 
       // We don't care much about what is in the company field, so we just add it here as part of the form
       // without any particular validation.
