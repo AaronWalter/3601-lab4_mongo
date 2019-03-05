@@ -13,10 +13,10 @@
           <input matInput id="todoId" #input type="text" placeholder="Filter by ID"
                  (input)="todoId = $event.target.value">
         </mat-form-field>
-        <mat-form-field>
-          <input matInput id="todoStatus" #input type="radio" ng-model="todo.status"
-                 (input)="todoStatus = $event.target.value">Complete
-        </mat-form-field>
+        <!--<mat-form-field>-->
+          <!--<input matInput id="todoStatus" #input type="radio" ng-model="todo.status"-->
+                 <!--(input)="todoStatus = $event.target.value">Complete-->
+        <!--</mat-form-field>-->
         <mat-form-field>
           <input matInput id="userCompany" #input type="search" placeholder="Search for company"
                  [(ngModel)]="userCompany"/>

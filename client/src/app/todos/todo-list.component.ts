@@ -37,7 +37,7 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog(): void {
-    const newTodo: Todo = {_id: '', name: '', age: -1, company: '', email: ''};
+    const newTodo: Todo = {_id: '', owner: '', status: true, category: '', body: ''};
     const dialogRef = this.dialog.open(AddTodoComponent, {
       width: '500px',
       data: {todo: newTodo}
@@ -60,23 +60,24 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public filterTodos(searchName: string, searchAge: number): Todo[] {
+  public filterTodos(searchOwner: string, searchStatus: boolean): Todo[] {
 
     this.filteredTodos = this.todos;
 
     // Filter by name
-    if (searchName != null) {
-      searchName = searchName.toLocaleLowerCase();
+    if (searchOwner != null) {
+      searchOwner = searchOwner.toLocaleLowerCase();
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchName || todo.name.toLowerCase().indexOf(searchName) !== -1;
+        return !searchOwner || todo.owner.toLowerCase().indexOf(searchOwner) !== -1;
       });
     }
 
     // Filter by age
-    if (searchAge != null) {
+    if (searchStatus != null) {
+
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchAge || todo.age == searchAge;
+        return !searchStatus || todo.status == searchStatus;
       });
     }
 
@@ -98,7 +99,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoName, this.todoAge);
+        this.filterTodos(this.todoOwner, this.todoStatus);
       },
       err => {
         console.log(err);
@@ -107,7 +108,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadService(): void {
-    this.todoListService.getTodos(this.todoCompany).subscribe(
+    this.todoListService.getTodos(this.todoBody).subscribe(
       todos => {
         this.todos = todos;
         this.filteredTodos = this.todos;
