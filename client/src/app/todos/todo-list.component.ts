@@ -20,7 +20,7 @@ export class TodoListComponent implements OnInit {
   // We should rename them to make that clearer.
   public todoId: string;
   public todoOwner: string;
-  public todoStatus: boolean;
+  public todoStatus: string;
   public todoBody: string;
   public todoCategory: string;
 
@@ -60,7 +60,7 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  public filterTodos(searchOwner: string, searchStatus: boolean, searchCategory: string): Todo[] {
+  public filterTodos(searchBody: string, searchOwner: string): Todo[] {
 
     this.filteredTodos = this.todos;
 
@@ -73,20 +73,12 @@ export class TodoListComponent implements OnInit {
       });
     }
 
-    // Filter by category
-    if (searchCategory != null) {
-      searchCategory = searchCategory.toLocaleLowerCase();
+    // Filter by body
+    if (searchBody != null) {
+      searchBody = searchBody.toLocaleLowerCase();
 
       this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchCategory || todo.category.toLowerCase().indexOf(searchCategory) !== -1;
-      });
-    }
-
-    // Filter by status
-    if (searchStatus != null) {
-
-      this.filteredTodos = this.filteredTodos.filter(todo => {
-        return !searchStatus || todo.status == searchStatus;
+        return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
       });
     }
 
@@ -108,7 +100,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoOwner, this.todoStatus, this.todoCategory);
+        this.filterTodos(this.todoOwner, this.todoBody);
       },
       err => {
         console.log(err);
@@ -117,7 +109,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadService(): void {
-    this.todoListService.getTodos(this.todoBody).subscribe(
+    this.todoListService.getTodos(this.todoStatus, this.todoCategory).subscribe(
       todos => {
         this.todos = todos;
         this.filteredTodos = this.todos;

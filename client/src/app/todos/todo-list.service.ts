@@ -15,8 +15,9 @@ export class TodoListService {
   constructor(private http: HttpClient) {
   }
 
-  getTodos(todoBody?: string): Observable<Todo[]> {
-    this.filterByBody(todoBody);
+  getTodos(todoStatus?: string, todoCategory?: string): Observable<Todo[]> {
+    this.filterByStatus(todoStatus);
+    this.filterByCategory(todoCategory);
     return this.http.get<Todo[]>(this.todoUrl);
   }
 
@@ -34,23 +35,49 @@ export class TodoListService {
   }
   */
 
-  filterByBody(todoBody?: string): void {
-    if (!(todoBody == null || todoBody === '')) {
-      if (this.parameterPresent('body=')) {
-        // there was a previous search by body that we need to clear
-        this.removeParameter('body=');
+  filterByStatus(todoStatus?: string): void {
+    if (!(todoStatus == null || todoStatus === '')) {
+      if (this.parameterPresent('status=')) {
+        // there was a previous search by owner that we need to clear
+        this.removeParameter('status=');
       }
       if (this.todoUrl.indexOf('?') !== -1) {
         // there was already some information passed in this url
-        this.todoUrl += 'body=' + todoBody + '&';
+        this.todoUrl += 'status=' + todoStatus + '&';
       } else {
         // this was the first bit of information to pass in the url
-        this.todoUrl += '?body=' + todoBody + '&';
+        this.todoUrl += '?status=' + todoStatus + '&';
       }
     } else {
       // there was nothing in the box to put onto the URL... reset
-      if (this.parameterPresent('body=')) {
-        let start = this.todoUrl.indexOf('body=');
+      if (this.parameterPresent('status=')) {
+        let start = this.todoUrl.indexOf('status=');
+        const end = this.todoUrl.indexOf('&', start);
+        if (this.todoUrl.substring(start - 1, start) === '?') {
+          start = start - 1;
+        }
+        this.todoUrl = this.todoUrl.substring(0, start) + this.todoUrl.substring(end + 1);
+      }
+    }
+  }
+
+  filterByCategory(todoCategory?: string): void {
+    if (!(todoCategory == null || todoCategory === '')) {
+      if (this.parameterPresent('category=')) {
+        // there was a previous search by category that we need to clear
+        this.removeParameter('category=');
+      }
+      if (this.todoUrl.indexOf('?') !== -1) {
+        // there was already some information passed in this url
+        this.todoUrl += 'category=' + todoCategory + '&';
+      } else {
+        // this was the first bit of information to pass in the url
+        this.todoUrl += '?category=' + todoCategory + '&';
+      }
+    } else {
+      // there was nothing in the box to put onto the URL... reset
+      if (this.parameterPresent('category=')) {
+        let start = this.todoUrl.indexOf('category=');
         const end = this.todoUrl.indexOf('&', start);
         if (this.todoUrl.substring(start - 1, start) === '?') {
           start = start - 1;

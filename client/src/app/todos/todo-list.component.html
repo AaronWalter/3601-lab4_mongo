@@ -9,23 +9,28 @@
       <mat-card-title id="todo-list-title">Todos</mat-card-title>
       <mat-divider></mat-divider>
       <mat-card-content>
+        <label>
+          <input type="radio" name="Complete" [(ngModel)]="todoStatus" [value]="true">Complete
+          <input type="radio" name="Incomplete" [(ngModel)]="todoStatus" [value]="false">Incomplete
+        </label>
+        <p></p>
         <mat-form-field>
           <input matInput id="todoOwner" #input type="text" placeholder="Filter by Owner"
                  (input)="todoOwner = $event.target.value">
         </mat-form-field>
         <mat-form-field>
-          <input matInput id="todoCategory" #input type="text" placeholder="Filter by Category"
-                 (input)="todoCategory = $event.target.value">
+          <input matInput id="todoBody" #input type="text" placeholder="Filter by Body"
+                 (input)="todoBody = $event.target.value">
         </mat-form-field>
         <!--<mat-form-field>-->
-          <!--<input matInput id="todoStatus" #input type="radio" ng-model="todo.status"-->
-                 <!--(input)="todoStatus = $event.target.value">Complete-->
+          <!--<input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"-->
+                 <!--(input)="todoStatus = $event.target.value">-->
         <!--</mat-form-field>-->
         <mat-form-field>
-          <input matInput id="todoBody" #input type="search" placeholder="Search for Body"
-                 [(ngModel)]="todoBody"/>
-          <button mat-button id="bodyClearSearch" type="button" *ngIf="todoBody" matSuffix mat-icon-button
-                  aria-label="clear" (click)="todoBody='';loadService()">
+          <input matInput id="todoCategory" #input type="search" placeholder="Search for Category"
+                 [(ngModel)]="todoCategory"/>
+          <button mat-button id="bodyClearSearch" type="button" *ngIf="todoCategory" matSuffix mat-icon-button
+                  aria-label="clear" (click)="todoCategory='';loadService()">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
@@ -34,7 +39,7 @@
 
         <mat-accordion *ngIf="todos; else todosError">
           <mat-expansion-panel #elem class="todos" [id]="todo._id" [expanded]="this.isHighlighted(todo)"
-                               *ngFor="let todo of this.filterTodos(todoOwner, todoStatus, todoCategory)">
+                               *ngFor="let todo of this.filterTodos(todoBody, todoOwner)">
             <mat-expansion-panel-header>
               <mat-panel-title matTooltip="ID: {{todo._id}}">{{todo.body}}</mat-panel-title>
 
