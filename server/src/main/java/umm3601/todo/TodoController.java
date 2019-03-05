@@ -18,7 +18,7 @@ import static com.mongodb.client.model.Filters.eq;
  * Controller that manages requests for info about todos.
  */
 public class TodoController {
-
+boolean neededBoolean;
   private final MongoCollection<Document> todoCollection;
 
   /**
@@ -85,11 +85,13 @@ public class TodoController {
 
     if (queryParams.containsKey("status")) {
       String targetContent = (queryParams.get("status")[0]);
-      boolean targetBool;
-      targetBool = changeStatus(targetContent);
-      Document contentRegQuery = new Document();
-      contentRegQuery.append("$eq", targetBool);
-      filterDoc = filterDoc.append("status", contentRegQuery);
+      if(targetContent.equals("complete")){
+        neededBoolean = true;
+      }
+      if(targetContent.equals("incomplete")){
+        neededBoolean = false;
+      }
+      filterDoc = filterDoc.append("status", neededBoolean);
     }
 
     if (queryParams.containsKey("body")) {
