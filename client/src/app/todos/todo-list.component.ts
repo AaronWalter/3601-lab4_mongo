@@ -82,8 +82,6 @@ export class TodoListComponent implements OnInit {
       });
     }
 
-    return this.filteredTodos;
-
     // Filter by status
     if (searchStatus != null) {
       searchStatus = searchStatus.toLocaleLowerCase();
@@ -92,6 +90,8 @@ export class TodoListComponent implements OnInit {
         return !searchStatus || String(todo.status).toLowerCase().indexOf(searchStatus) !== -1;
       });
     }
+
+    return this.filteredTodos;
   }
 
   /**
@@ -109,7 +109,7 @@ export class TodoListComponent implements OnInit {
     todos.subscribe(
       todos => {
         this.todos = todos;
-        this.filterTodos(this.todoOwner, this.todoBody);
+        this.filterTodos(this.todoBody, this.todoOwner, this.todoStatus);
       },
       err => {
         console.log(err);
@@ -118,7 +118,7 @@ export class TodoListComponent implements OnInit {
   }
 
   loadService(): void {
-    this.todoListService.getTodos(this.todoStatus, this.todoCategory).subscribe(
+    this.todoListService.getTodos(this.todoCategory).subscribe(
       todos => {
         this.todos = todos;
         this.filteredTodos = this.todos;
