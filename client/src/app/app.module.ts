@@ -24,7 +24,6 @@ import {MdInputModule} from "@angular/material";
 import { CompatibilityModule } from '@angular/material';
 import {NoConflictStyleCompatibilityMode} from '@angular/material';
 
-
 @NgModule({
   imports: [
     BrowserModule,
