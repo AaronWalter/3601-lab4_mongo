@@ -27,8 +27,8 @@ export class TodoPage {
     return title;
   }
 
-  typeAName(name: string) {
-    const input = element(by.id('todoName'));
+  typeAnOwner(name: string) {
+    const input = element(by.id('todoOwner'));
     input.click();
     input.sendKeys(name);
   }
@@ -41,14 +41,14 @@ export class TodoPage {
     browser.actions().sendKeys(Key.BACK_SPACE).perform();
   }
 
-  getCompany(company: string) {
-    const input = element(by.id('todoCompany'));
+  getCategory(category: string) {
+    const input = element(by.id('todoCategory'));
     input.click();
-    input.sendKeys(company);
+    input.sendKeys(category);
     this.click('submit');
   }
 
-  getTodoByAge() {
+  getTodoByStatus() {
     const input = element(by.id('todoName'));
     input.click();
     input.sendKeys(Key.TAB);
