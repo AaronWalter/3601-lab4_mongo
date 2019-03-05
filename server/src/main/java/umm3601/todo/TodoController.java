@@ -85,10 +85,10 @@ boolean neededBoolean;
 
     if (queryParams.containsKey("status")) {
       String targetContent = (queryParams.get("status")[0]);
-      if(targetContent.equals("complete")){
+      if(targetContent.equals("true")){
         neededBoolean = true;
       }
-      if(targetContent.equals("incomplete")){
+      if(targetContent.equals("false")){
         neededBoolean = false;
       }
       filterDoc = filterDoc.append("status", neededBoolean);

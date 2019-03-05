@@ -22,10 +22,10 @@
           <input matInput id="todoBody" #input type="text" placeholder="Filter by Body"
                  (input)="todoBody = $event.target.value">
         </mat-form-field>
-        <!--<mat-form-field>-->
-          <!--<input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"-->
-                 <!--(input)="todoStatus = $event.target.value">-->
-        <!--</mat-form-field>-->
+        <mat-form-field>
+          <input matInput id="todoStatus" #input type="text" placeholder="Filter by Status"
+                 (input)="todoStatus = $event.target.value">
+        </mat-form-field>
         <mat-form-field>
           <input matInput id="todoCategory" #input type="search" placeholder="Search for Category"
                  [(ngModel)]="todoCategory"/>
